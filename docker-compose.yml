@@ -1,0 +1,66 @@
+version: '3'
+services:
+  urbanpulse_broker:
+    image: rabbitmq:3-management
+    container_name: urbanpulse_broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "1883:1883"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+
+  urbanpulse_db:
+    image: postgis/postgis:15-3.3
+    container_name: urbanpulse_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: urban_pulse_db
+    volumes:
+      - urban-pulse_postgres_data:/var/lib/postgresql/data
+
+  urbanpulse_mage:
+    image: mageai/mageai:latest
+    container_name: urbanpulse_mage
+    ports:
+      - "6789:6789"
+    volumes:
+      - .:/home/src
+    command: mage start urban_pulse_project
+    depends_on:
+      - urbanpulse_db
+      - urbanpulse_broker
+
+  urbanpulse_backend:
+    build: ./backend
+    container_name: urbanpulse_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    # ✅ ADD THIS SECTION
+    environment:
+      - DATABASE_URL=postgresql://admin:password123@urbanpulse_db:5432/urban_pulse_db
+    # ------------------
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - urbanpulse_db
+
+  # ✅ NEW: Frontend Service
+  urbanpulse_frontend:
+    build: ./frontend
+    container_name: urbanpulse_frontend
+    ports:
+      - "8501:8501"
+    environment:
+      # Talks to the backend container, NOT localhost
+      - API_URL=http://urbanpulse_backend:8000/api/v1/latest
+    depends_on:
+      - urbanpulse_backend
+
+volumes:
+  urban-pulse_postgres_data:

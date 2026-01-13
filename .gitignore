@@ -1,0 +1,16 @@
+# Python junk
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Docker junk
+.docker/
+
+# Mage AI data
+.mage_data/
+mage_data/
+logs/
+
+# VS Code settings
+.vscode/
