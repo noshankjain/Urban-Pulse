@@ -1,6 +1,6 @@
 # 🏙️ Urban Pulse – Global Real-Time IoT Sensor Network
 
-**Urban Pulse** is an end-to-end data engineering platform for real-time environmental monitoring.  
+**Urban Pulse** is an end to end data engineering platform for real time environmental monitoring.  
 It simulates, processes, and visualizes live IoT sensor streams from major cities around the world.
 
 Built using **Mage AI, RabbitMQ (MQTT)**, and a **Streamlit live dashboard**, it converts raw sensor data into actionable insights, tracking **Air Quality Index (AQI)** and **Temperature** globally.
@@ -17,11 +17,11 @@ Built using **Mage AI, RabbitMQ (MQTT)**, and a **Streamlit live dashboard**, it
 
 - **Automated ETL Pipeline**
   - 🔄 Extract: Consumes live MQTT data from RabbitMQ  
-  - 🛠️ Transform: Cleans and formats geo-tagged sensor data  
+  - 🛠️ Transform: Cleans and formats geo tagged sensor data  
   - 💾 Load: Stores historical data in PostgreSQL  
 
 - **Live Geospatial Dashboard**  
-  Interactive world map showing active sensors, city-level search, and hazardous AQI alerts.
+  Interactive world map showing active sensors, city level search, and hazardous AQI alerts.
 
 - **Scalable Simulation**  
   Simulates 30+ concurrent IoT devices for cities like Paris, Tokyo, and New York.
